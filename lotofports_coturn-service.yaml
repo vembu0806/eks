@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: udp-coturn-svc
+spec:
+  ports:
+  {{- range seq 55000 55100}}
+  - protocol: UDP
+    port: {{add .}}
+    targetPort: {{add .}}
+    name: exposed-port-{{add .}}
+  {{- end -}}
+  selector:
+    app: coturn
+  type: LoadBalancer
